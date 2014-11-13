@@ -11,6 +11,9 @@ PyEXIF
 .. image:: https://pypip.in/d/pyexif/badge.png
         :target: https://pypi.python.org/pypi/pyexif
 
+.. image:: https://coveralls.io/repos/hanneshapke/pyexif/badge.png
+        :target: https://coveralls.io/r/hanneshapke/pyexif
+
 
 Read EXIF from jpegs.
 
