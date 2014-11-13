@@ -23,7 +23,7 @@ def get_exif_data(fname):
                     else:
                         exif_gps_data[decoded] = value
     except IOError:
-        print 'IOERROR ' + fname
+        return 'IOERROR ' + fname
     return exif_gps_data
 
 
@@ -73,8 +73,8 @@ def get_lat_lon(exif_data):
 
     return lat, lon
 
-
-def _test(fname):
-    data = get_exif_data(fname)
-    result = get_lat_lon(data)
-    print result
+# # How to test the code
+# def _test(fname):
+#     data = get_exif_data(fname)
+#     result = get_lat_lon(data)
+#     print result
