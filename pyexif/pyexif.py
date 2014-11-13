@@ -76,5 +76,5 @@ def get_lat_lon(exif_data):
 
 def _test(fname):
     data = get_exif_data(fname)
-    lat, lon = get_lat_lon(data)
-    print lat, lon
+    result = get_lat_lon(data)
+    print result
