@@ -21,3 +21,11 @@ Features
 --------
 
 * TODO
+1) Read date and time from images
+
+
+Thanks to
+--------
+The works was inspired by
+erans: https://gist.github.com/erans/983821
+Daniel Brown: http://www.endlesslycurious.com/2011/05/11/extracting-image-exif-data-with-python/
