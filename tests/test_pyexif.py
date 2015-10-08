@@ -51,7 +51,6 @@ class TestPyexif(unittest.TestCase):
 
     def test_image_with_exif_data_southern_hemisphere(self):
         result = pyexif.Exif(self.fname_with_exif_southern_hemisphere)
-        print result.lat
         self.assertAlmostEqual(result.lat, -41.277833333333, delta=0.0001)
         self.assertAlmostEqual(result.lon, 174.777166666666, delta=0.0001)
 
