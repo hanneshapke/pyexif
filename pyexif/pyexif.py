@@ -1,40 +1,7 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ExifTags
 
-
-def get_exif_data(fname):
-    """
-    Get embedded EXIF data from image file.
-    """
-    exif_gps_data = {}
-    try:
-        img = Image.open(fname)
-        if hasattr(img, '_getexif'):
-            exifinfo = img._getexif()
-            if exifinfo is not None:
-                for tag, value in exifinfo.items():
-                    decoded = ExifTags.TAGS.get(tag, tag)
-                    if decoded == "GPSInfo":
-                        gps_data = {}
-                        for data in value:
-                            decoded = ExifTags.GPSTAGS.get(data, data)
-                            gps_data[decoded] = value[data]
-                        exif_gps_data[decoded] = gps_data
-                    else:
-                        exif_gps_data[decoded] = value
-    except IOError:
-        return 'IOERROR ' + fname
-    return exif_gps_data
-
-
-def get_exif_gps(exif_data):
-    if 'GPSImgDirection' in exif_data:
-        return exif_data['GPSImgDirection']
-    else:
-        False
-
-
-def convert_to_degrees(value):
+def _convert_to_degrees(value):
     """
     Helper function to convert the GPS coordinates stored
     in the EXIF to degress in float format
@@ -45,36 +12,91 @@ def convert_to_degrees(value):
     return hours + (minutes / 60.0) + (seconds / 3600.0)
 
 
-def get_lat_lon(exif_data):
-    """
-    Returns the latitude and longitude, if available,
-    from the provided exif_data (obtained through get_exif_data above)
-    """
-    lat = None
-    lon = None
+class Exif:
 
-    gps_info = get_exif_gps(exif_data)
-    if not gps_info:
-        return False
+    def __init__(self, image, **kwargs):
+        """
+        sample code:
+        from pyexif import pyexif
+        r = pyexif.Exif('YOUR_IMAGE')
+        print r.lat  # extract the latitude
+        """
 
-    gps_latitude = gps_info.get('GPSLatitude', None)
-    gps_latitude_ref = gps_info.get('GPSLatitudeRef', None)
-    gps_longitude = gps_info.get('GPSLongitude', None)
-    gps_longitude_ref = gps_info.get('GPSLongitudeRef', None)
+        self.image = self._load_image(image)
+        self._get_exif_data()
 
-    if gps_latitude and gps_latitude_ref \
-            and gps_longitude and gps_longitude_ref:
-        lat = convert_to_degrees(gps_latitude)
-        if gps_latitude_ref != "N":
-            lat = 0 - lat
-        lon = convert_to_degrees(gps_longitude)
-        if gps_longitude_ref != "E":
-            lon = 0 - lon
+    def _load_image(self, image_file_name):
+        """Load the image from the given source"""
 
-    return lat, lon
+        try:
+            return Image.open(image_file_name)
+        except IOError:
+            raise IOError('Can not find image')
 
-# # How to test the code
-# def _test(fname):
-#     data = get_exif_data(fname)
-#     result = get_lat_lon(data)
-#     print result
+    def _get_exif_data(self):
+        """Get embedded EXIF data from image file. """
+
+        self.exif_raw_data = None
+        try:
+            if hasattr(self.image, '_getexif'):
+                self.exif_raw_data = self.image._getexif().items()
+        except AttributeError:
+            raise AttributeError('Image does not contain exif data')
+
+    def parse(self, exif_tag):
+        """Parse exif tags"""
+        for tag, value in self.exif_raw_data:
+            if ExifTags.TAGS.get(tag, None) == exif_tag:
+                return value
+            elif type(value) is dict:
+                for k, v in value.items():
+                    if exif_tag == ExifTags.GPSTAGS.get(k, None):
+                        return v
+
+    @property
+    def exif_version(self):
+        return self.parse('ExifVersion')
+
+    @property
+    def gps_attributes(self):
+        attr = []
+        for k, v in self.parse('GPSInfo').items():
+            attr.append(ExifTags.GPSTAGS.get(k, None))
+        return attr
+
+    @property
+    def lat(self):
+        if self.lat_ref == 'S':
+            return -_convert_to_degrees(self.parse('GPSLatitude'))
+        return _convert_to_degrees(self.parse('GPSLatitude'))
+
+    @property
+    def lon(self):
+        if self.lon_ref == 'W':
+            return -_convert_to_degrees(self.parse('GPSLongitude'))
+        return _convert_to_degrees(self.parse('GPSLongitude'))
+
+    @property
+    def lat_ref(self):
+        return self.parse('GPSLatitudeRef')
+
+    @property
+    def lon_ref(self):
+        return self.parse('GPSLongitudeRef')
+
+    @property
+    def altitude_ref(self):
+        ref_code = self.parse('GPSAltitudeRef')
+        if ref_code == '0':
+            return 'Sea level'
+        elif ref_code == '1':
+            return 'Sea level reference (negative value)'
+        else:
+            return None
+
+    @property
+    def altitude(self):
+        alt = self.parse('GPSAltitude')
+        if alt:
+            return float(alt[0]) / float(alt[1])
+        return None

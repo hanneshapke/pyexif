@@ -33,27 +33,27 @@ class TestPyexif(unittest.TestCase):
         return self
 
     def test_image_without_exif_data(self):
-        data = pyexif.get_exif_data(self.fname_no_exif)
-        result = pyexif.get_lat_lon(data)
-        self.assertEqual(result, False)
+        with self.assertRaises(AttributeError) as context:
+            pyexif.Exif(self.fname_no_exif)
+        self.assertTrue(
+            'Image does not contain exif data' in context.exception)
 
     def test_no_image(self):
-        data = pyexif.get_exif_data(self.fname_ioerror)
-        self.assertEqual(data, ''.join(['IOERROR ', self.fname_ioerror]))
-        result = pyexif.get_lat_lon(data)
-        self.assertEqual(result, False)
+        with self.assertRaises(IOError) as context:
+            pyexif.Exif(self.fname_ioerror)
+        self.assertTrue(
+            'Can not find image' in context.exception)
 
     def test_image_with_exif_data_northern_hemisphere(self):
-        data = pyexif.get_exif_data(self.fname_with_exif_northern_hemisphere)
-        result = pyexif.get_lat_lon(data)
-        self.assertAlmostEqual(result[0], 48.7390111111)
-        self.assertAlmostEqual(result[1], -113.749747222)
+        result = pyexif.Exif(self.fname_with_exif_northern_hemisphere)
+        self.assertAlmostEqual(result.lat, 48.7390111111, delta=0.0001)
+        self.assertAlmostEqual(result.lon, -113.749747222, delta=0.0001)
 
     def test_image_with_exif_data_southern_hemisphere(self):
-        data = pyexif.get_exif_data(self.fname_with_exif_southern_hemisphere)
-        result = pyexif.get_lat_lon(data)
-        self.assertAlmostEqual(result[0], -41.277833333333)
-        self.assertAlmostEqual(result[1], 174.777166666666)
+        result = pyexif.Exif(self.fname_with_exif_southern_hemisphere)
+        print result.lat
+        self.assertAlmostEqual(result.lat, -41.277833333333, delta=0.0001)
+        self.assertAlmostEqual(result.lon, 174.777166666666, delta=0.0001)
 
     def tearDown(self):
         pass

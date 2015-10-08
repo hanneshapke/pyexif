@@ -12,7 +12,7 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
-    # TODO: put package requirements here
+    'Pillow',
 ]
 
 test_requirements = [
@@ -27,6 +27,8 @@ setup(
     author='Hannes Hapke',
     author_email='hannes.hapke@gmail.com',
     url='https://github.com/hanneshapke/pyexif',
+    download_url='https://github.com/hanneshapke/pyexif',
+    license="The MIT License",
     packages=[
         'pyexif',
     ],
@@ -34,7 +36,6 @@ setup(
                  'pyexif'},
     include_package_data=True,
     install_requires=requirements,
-    license="BSD",
     zip_safe=False,
     keywords='pyexif',
     classifiers=[
