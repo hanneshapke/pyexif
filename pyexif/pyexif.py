@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ExifTags
 
+
 def _convert_to_degrees(value):
     """
     Helper function to convert the GPS coordinates stored
@@ -19,7 +20,7 @@ class Exif:
         sample code:
         from pyexif import pyexif
         r = pyexif.Exif('YOUR_IMAGE')
-        print r.lat  # extract the latitude
+        print (r.lat)  # extract the latitude
         """
 
         self.image = self._load_image(image)
