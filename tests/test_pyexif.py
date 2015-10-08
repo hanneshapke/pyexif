@@ -35,14 +35,16 @@ class TestPyexif(unittest.TestCase):
     def test_image_without_exif_data(self):
         with self.assertRaises(AttributeError) as context:
             pyexif.Exif(self.fname_no_exif)
-        self.assertTrue(
-            'Image does not contain exif data' in context.exception)
+        self.assertEqual(
+            'Image does not contain exif data',
+            str(context.exception))
 
     def test_no_image(self):
         with self.assertRaises(IOError) as context:
             pyexif.Exif(self.fname_ioerror)
-        self.assertTrue(
-            'Can not find image' in context.exception)
+        self.assertEqual(
+            'Can not find image',
+            str(context.exception))
 
     def test_image_with_exif_data_northern_hemisphere(self):
         result = pyexif.Exif(self.fname_with_exif_northern_hemisphere)

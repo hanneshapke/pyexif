@@ -32,7 +32,7 @@ class Exif:
         try:
             return Image.open(image_file_name)
         except IOError:
-            raise IOError('Can not find image')
+            raise IOError('No such file')
 
     def _get_exif_data(self):
         """Get embedded EXIF data from image file. """
