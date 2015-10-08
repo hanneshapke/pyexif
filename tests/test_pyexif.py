@@ -43,7 +43,7 @@ class TestPyexif(unittest.TestCase):
         with self.assertRaises(IOError) as context:
             pyexif.Exif(self.fname_ioerror)
         self.assertEqual(
-            'Can not find image',
+            'No such file',
             str(context.exception))
 
     def test_image_with_exif_data_northern_hemisphere(self):
