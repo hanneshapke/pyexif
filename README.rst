@@ -28,21 +28,17 @@ How to use the package
 
 * Run the following code
 
-```python
-#!/usr/bin/python
 
-from pyexif import pyexif
-"""Sample code to demonstrate pyexif"""
+.. code-block:: python
+    #!/usr/bin/python
 
-file_name = “your_image.JPG"
-result = pyexif.Exif(file_name)
-print ("The available attributes are: %s" % result.gps_attributes)
-print ("Your location: %s %s" % result.lat, result.lon)
+    from pyexif import pyexif
+    """Sample code to demonstrate pyexif"""
 
-```
-
-* TODO
-1) Read date and time from images
+    file_name = “your_image.JPG"
+    result = pyexif.Exif(file_name)
+    print ("The available attributes are: %s" % result.gps_attributes)
+    print ("Your location: %s %s" % result.lat, result.lon)
 
 
 Further Readings
