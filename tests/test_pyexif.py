@@ -22,7 +22,7 @@ class TestPyexif(unittest.TestCase):
             [BASE_DIR, 'no_exif_data.jpg']
         )
         self.fname_with_exif_northern_hemisphere = '/'.join(
-            [BASE_DIR, 'glacier_national_park.jpg']
+            [BASE_DIR, 'mt_south_sister_or.jpg']
         )
         self.fname_with_exif_southern_hemisphere = '/'.join(
             [BASE_DIR, 'new_zealand_wellington_beehive.jpg']
@@ -47,9 +47,30 @@ class TestPyexif(unittest.TestCase):
             str(context.exception))
 
     def test_image_with_exif_data_northern_hemisphere(self):
+        gps_attr = [
+            'GPSLatitudeRef',
+            'GPSLatitude',
+            'GPSLongitudeRef',
+            'GPSLongitude',
+            'GPSAltitudeRef',
+            'GPSAltitude',
+            'GPSTimeStamp',
+            'GPSSpeedRef',
+            'GPSSpeed',
+            'GPSImgDirectionRef',
+            'GPSImgDirection',
+            'GPSDestBearingRef',
+            'GPSDestBearing',
+            'GPSDateStamp'
+        ]
+
         result = pyexif.Exif(self.fname_with_exif_northern_hemisphere)
-        self.assertAlmostEqual(result.lat, 48.7390111111, delta=0.0001)
-        self.assertAlmostEqual(result.lon, -113.749747222, delta=0.0001)
+        self.assertAlmostEqual(result.lat, 44.10364444444445, delta=0.0001)
+        self.assertAlmostEqual(result.lon, -121.76937222222222, delta=0.0001)
+        self.assertEqual(result.exif_version, '0221')
+        self.assertEqual(result.gps_attributes, gps_attr)
+        self.assertEqual(result.altitude_ref, None)
+        self.assertAlmostEqual(result.altitude, 3150.3488372, delta=0.0001)
 
     def test_image_with_exif_data_southern_hemisphere(self):
         result = pyexif.Exif(self.fname_with_exif_southern_hemisphere)

@@ -88,9 +88,9 @@ class Exif:
     @property
     def altitude_ref(self):
         ref_code = self.parse('GPSAltitudeRef')
-        if ref_code == '0':
+        if ref_code == 0:
             return 'Sea level'
-        elif ref_code == '1':
+        elif ref_code == 1:
             return 'Sea level reference (negative value)'
         else:
             return None
