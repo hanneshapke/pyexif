@@ -38,7 +38,7 @@ How to use the package
 
 Further Readings
 ----------------
-Exif sepcs:
+Exif specifications:
 http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf
 
 
