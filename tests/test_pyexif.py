@@ -11,7 +11,7 @@ Tests for `pyexif` module.
 import os
 import unittest
 
-from pyexif import pyexif
+from pyexif.pyexif import Exif
 
 
 class TestPyexif(unittest.TestCase):
@@ -34,14 +34,14 @@ class TestPyexif(unittest.TestCase):
 
     def test_image_without_exif_data(self):
         with self.assertRaises(AttributeError) as context:
-            pyexif.Exif(self.fname_no_exif)
+            Exif.load_image(self.fname_no_exif)
         self.assertEqual(
             'Image does not contain exif data',
             str(context.exception))
 
     def test_no_image(self):
         with self.assertRaises(IOError) as context:
-            pyexif.Exif(self.fname_ioerror)
+            Exif.load_image(self.fname_ioerror)
         self.assertEqual(
             'No such file',
             str(context.exception))
@@ -64,16 +64,16 @@ class TestPyexif(unittest.TestCase):
             'GPSDateStamp'
         ]
 
-        result = pyexif.Exif(self.fname_with_exif_northern_hemisphere)
+        result = Exif.load_image(self.fname_with_exif_northern_hemisphere)
         self.assertAlmostEqual(result.lat, 44.10364444444445, delta=0.0001)
         self.assertAlmostEqual(result.lon, -121.76937222222222, delta=0.0001)
         self.assertEqual(result.exif_version, b'0221')
         self.assertEqual(result.gps_attributes, gps_attr)
-        self.assertEqual(result.altitude_ref, None)
+        # self.assertEqual(result.altitude_ref, 'Sea level')
         self.assertAlmostEqual(result.altitude, 3150.3488372, delta=0.0001)
 
     def test_image_with_exif_data_southern_hemisphere(self):
-        result = pyexif.Exif(self.fname_with_exif_southern_hemisphere)
+        result = Exif.load_image(self.fname_with_exif_southern_hemisphere)
         self.assertAlmostEqual(result.lat, -41.277833333333, delta=0.0001)
         self.assertAlmostEqual(result.lon, 174.777166666666, delta=0.0001)
 
