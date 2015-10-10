@@ -27,13 +27,13 @@ How to use the package
 
 .. code-block:: python
 :linenos:
-#!/usr/bin/python
-"""Sample code to demonstrate pyexif"""
-from pyexif.pyexif import Exif
-file_name = “your_image.JPG"
-result = Exif.load_image(file_name)
-print ("The available attributes are: %s" % result.gps_attributes)
-print ("Your location: %s %s" % result.lat, result.lon)
+  #!/usr/bin/python
+  """Sample code to demonstrate pyexif"""
+  from pyexif.pyexif import Exif
+  file_name = “your_image.JPG"
+  result = Exif.load_image(file_name)
+  print ("The available attributes are: %s" % result.gps_attributes)
+  print ("Your location: %s %s" % result.lat, result.lon)
 
 
 Further Readings
