@@ -6,10 +6,7 @@ PyEXIF
     :target: http://badge.fury.io/py/pyexif
 
 .. image:: https://travis-ci.org/hanneshapke/pyexif.png?branch=master
-        :target: https://travis-ci.org/hanneshapke/pyexif
-
-.. image:: https://pypip.in/d/pyexif/badge.png
-        :target: https://pypi.python.org/pypi/pyexif
+    :target: https://travis-ci.org/hanneshapke/pyexif
 
 .. image:: https://coveralls.io/repos/hanneshapke/pyexif/badge.svg?branch=master&service=github
   :target: https://coveralls.io/github/hanneshapke/pyexif?branch=master
@@ -29,7 +26,9 @@ How to use the package
 * Run the following code
 
 
-.. code-block:: python
+.. code-block::
+    :linenos:
+
     #!/usr/bin/python
 
     from pyexif import pyexif
