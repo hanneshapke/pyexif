@@ -26,7 +26,7 @@ How to use the package
 * Run the following code
 
 .. code-block:: python
-:linenos:
+::
   #!/usr/bin/python
 """Sample code to demonstrate pyexif"""
 from pyexif.pyexif import Exif
