@@ -67,7 +67,7 @@ class TestPyexif(unittest.TestCase):
         result = pyexif.Exif(self.fname_with_exif_northern_hemisphere)
         self.assertAlmostEqual(result.lat, 44.10364444444445, delta=0.0001)
         self.assertAlmostEqual(result.lon, -121.76937222222222, delta=0.0001)
-        self.assertEqual(result.exif_version, '0221')
+        self.assertEqual(str(result.exif_version), '0221')
         self.assertEqual(result.gps_attributes, gps_attr)
         self.assertEqual(result.altitude_ref, None)
         self.assertAlmostEqual(result.altitude, 3150.3488372, delta=0.0001)
