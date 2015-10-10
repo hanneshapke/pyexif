@@ -27,6 +27,12 @@ Features
 1) Read date and time from images
 
 
+Further Readings
+----------------
+Exif sepcs:
+http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf
+
+
 Thanks to
 --------
 The works was inspired by
